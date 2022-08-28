@@ -22,8 +22,8 @@ setuptools.setup(
         "aws-cdk.core==1.129.0",
         "aws-cdk.aws_iam==1.129.0",
         "aws-cdk.aws_sqs==1.129.0",
-        "aws-cdk.aws_sns==1.129.0",
-        "aws-cdk.aws_sns_subscriptions==1.129.0",
+        "aws-cdk.aws_lambda==1.129.0",
+        "aws-cdk.aws_lambda_event_sources==1.129.0",
         "aws-cdk.aws_s3==1.129.0",
     ],
 

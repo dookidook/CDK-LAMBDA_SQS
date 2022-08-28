@@ -1,8 +1,8 @@
 from aws_cdk import (
     aws_iam as iam,
     aws_sqs as sqs,
-    aws_sns as sns,
-    aws_sns_subscriptions as subs,
+    aws_lambda as _lambda,
+    aws_lambda_event_sources as _aws_lambda_event_sources,
     core
 )
 
@@ -17,8 +17,13 @@ class PythonProject1Stack(core.Stack):
             visibility_timeout=core.Duration.seconds(300),
         )
 
-        topic = sns.Topic(
-            self, "PythonProject1Topic"
-        )
+        # making Lambda
+        sqs_lambda = _lambda.Function(self, 'sqstrigger',
+                                      handler='lambda_handler.handler',
+                                      runtime=_lambda.Runtime.PYTHON_3_9,  # type: ignore
+                                      code=_lambda.Code.asset('lambda')
+                                      )
 
-        topic.add_subscription(subs.SqsSubscription(queue))
+        sqs_event_source = _aws_lambda_event_sources.SqsEventSource(queue)
+        # Link SQS event source to the Lambda function
+        sqs_lambda.add_event_source(sqs_event_source)
